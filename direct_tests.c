@@ -20,28 +20,27 @@ int CalculaFCS(char *cads)
     return r;
 }
 
-main()
+int main()
 {
      int fd,c,res,i;
      struct termios oldtio,newtio;
      char buf[255],ins[10];
 
-     printf("Obrint el port...\n"); 
+     printf("Opening the port..\n");
     
      fd = open(MODEMDEVICE,O_RDWR | O_NOCTTY);
      
      if (fd<0) {
         perror(MODEMDEVICE);
-	exit(-1);
+	     //exit(-1);
      }
  
          
-     tcgetattr(fd,&oldtio);                     // Guarda els valors actuals del port
-     bzero(&newtio,sizeof(newtio));             // Buida els valors per iniciar-los
-     printf("Configurant el port...\n");
+     tcgetattr(fd,&oldtio);                     // Saves the current port values
+     bzero(&newtio,sizeof(newtio));             // Empty the values â€‹â€‹to initialize them
+     printf("Configuring the port...\n");
 
-     // Inicialitzar el tipus de transmisió de dades
-     // 
+     // Initialize the data transmission type
      // OMROM CPM1: 9600,7,E,2
      //
 
@@ -49,9 +48,9 @@ main()
      
      newtio.c_iflag = ICRNL;         
      newtio.c_oflag = 0;
-     newtio.c_lflag = ICANON;         // Tipus d'entrada canònica
+     newtio.c_lflag = ICANON;
      
-     // Inicialitzar el temps d'espera 
+     // Initialize the timeout
      
      newtio.c_cc[VTIME] = 10;
      newtio.c_cc[VMIN]  = 5;
@@ -64,14 +63,15 @@ main()
 
      printf("%s %2x\n",ins,CalculaFCS(ins));
 
-     printf("Enviant petició d'estat...\n");
+     printf("Sending status request...\n");
      write(fd,buf,10); 
            
-     printf("Esperant resposta...\n");
+     printf("Waiting for an answer...\n");
      res = read(fd,buf,255);
 
      buf[res]=0;
-     printf("resposta: %s",buf); 
+     printf("reply: %s",buf); 
     
      tcsetattr(fd,TCSANOW,&oldtio);
+     return 0;
 }

@@ -1,6 +1,3 @@
-
-/* Respostes de la funció interpreta_comanda */
-
 #define NO_COMANDA 0xF001
 #define NO_NODE    0xF002
 #define NO_FCS     0xF003
@@ -8,7 +5,6 @@
 #define TROS_TRAMA 0xE001
 #define COMANDA_OK 0x0
 
-/* Estructura que utilitzarem */
 
 struct s_plc {
        int node;

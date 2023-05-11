@@ -18,8 +18,7 @@
 #include "propies.h"
 
 /* 
-   Calcula el FCS d'una cadena de caràcters 
-   per a fer el checksum.
+   Calculates the FCS of a string of characters to perform the checksum.
 */
 
 int calculaFCS(char *cad)
@@ -32,7 +31,7 @@ int calculaFCS(char *cad)
 }
 
 /*
-   Funció per a definir un PLC nou
+  To define a new PLC
 */
 
 p_plc designa_plc(int model, int node)
@@ -40,7 +39,7 @@ p_plc designa_plc(int model, int node)
       p_plc p;
 
       if((p=(p_plc) malloc(sizeof(p_plc)+1))==NULL) {
-        printf("error al assignar memoria\n");
+        printf("malloc failed...\n");
         return 0;
       }
     
@@ -53,9 +52,8 @@ p_plc designa_plc(int model, int node)
 }
 
 /*
-   Torna el model del PLC amb el qual s'està treballant
-   abans de cridar-lo es necessari enviar-li al PLC la comanda
-   de petició de model.   
+   It returns the model of the PLC that is being worked with before calling it,
+   it is necessary to send the model request command to the PLC.
 */
 
 char *modelPLC(p_plc p)
@@ -65,8 +63,8 @@ char *modelPLC(p_plc p)
 }
 
 /*
-   Funció que torna el bloc d'inici de la comanda de
-   resposta PLC->PC, sense la terminació i el FCS.
+   Function that returns the start block of the PLC->PC response command,
+   without the termination and the FCS.
 */
 
 char *agafa_inici(char *com_hl)
@@ -90,8 +88,7 @@ char *agafa_inici(char *com_hl)
 }
 
 /* 
-   Ens torna el número de node del PLC que ens envia
-   la comanda.
+   It returns the node number of the PLC that sends us the command.
 */
 
 int agafa_node(char *com_hl)
@@ -103,7 +100,7 @@ int agafa_node(char *com_hl)
 }
 
 /* 
-   Ens torna el codi FCS rebut en hexadecimal
+   It returns the received FCS code in hex.
 */
  
 int agafa_FCS(char *com_hl)
@@ -135,7 +132,7 @@ int que_es(char *com_hl)
     l = strlen(com_hl);
 
     if(com_hl[0]=='@' && com_hl[l-2]=='*')
-      return 1;
+      return COMANDA_OK;
     else if(com_hl[l-1]=='|')
       return COMANDA;
     else
@@ -153,19 +150,28 @@ int comprova_comanda(p_plc p, char *com_hl)
     return 0;
 }
 
+/*
+ This function can not be compiled successfully,
+ so I comment out this function.
+*/
+/*
 int llegeix_comanda(p_plc p,char *com_hl)
 {
-    switch(que_es(com_hl)) {
-          COMANDA:comprova_comanda(com_hl);
-                  break;
-             2:if (comprova_comanda(com_hl)!=0)
-                     afegeix_a_trama(com_hl);
-                  else
-                     return
-                  break;
-            -1:return ERROR;
-    }
+   switch(que_es(com_hl)) {
+   case COMANDA:
+      comprova_comanda(p,com_hl);
+      break;
+   case COMANDA_OK:
+      if (comprova_comanda(p,com_hl)!=0)
+         afegeix_a_trama(com_hl);
+      else
+         return;
+      break;
+   case -1:
+      return -1;
+   }
 }
+*/
 
 char *darrera_trama(p_plc p)
 {

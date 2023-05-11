@@ -1,6 +1,7 @@
 /* 
-   Distins models de PLC's que soporten
-   protocol Host Link.
+   
+Different models of PLCs that support Host Link protocol.
+
 */
 
 char *models[13][2]={{"01","C250"},

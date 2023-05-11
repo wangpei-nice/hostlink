@@ -2,10 +2,10 @@
 
   comm.c
 
-  Modul per a gestionar l'entrada/sortida sèrie a travers de linux
+  Modul per a gestionar l'entrada/sortida sï¿½rie a travers de linux
 
   Smart Software 1993/99 (C)
-  Tomeu Capó i Capó 1999 (C)
+  Tomeu Capï¿½ i Capï¿½ 1999 (C)
 
   Last revision: 28/09/1999
 
@@ -22,7 +22,7 @@ p_port defineix_port(char *disp,speed_t velocitat,int tdades)
        p_port p;
        
        if((p=(p_port) malloc(sizeof(s_port)+1))==NULL) {
-         printf("error al reservar la memoria\n");
+         printf("malloc failed...\n");
          return 0;
        }
        
@@ -30,8 +30,8 @@ p_port defineix_port(char *disp,speed_t velocitat,int tdades)
        bzero(&p->cfg_nova,sizeof(p->cfg_nova));
        p->cfg_nova.c_cflag = velocitat | CRTSCTS | tdades | CREAD; 
 
-       p->cfg_nova.c_iflag = ICRNL;           // Converteix el caracter CR->NULL
-       p->cfg_nova.c_oflag = 0;               // Sortida tipus RAW
+       p->cfg_nova.c_iflag = ICRNL;           // Convert the character CR->NULL
+       p->cfg_nova.c_oflag = 0;               // RAW type output
        p->cfg_nova.c_lflag = ICANON;
 }
 
